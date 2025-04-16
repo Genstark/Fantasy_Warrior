@@ -239,10 +239,8 @@ while run:
                 draw_text(str(display_countdown), countdown_font, red, 615, 10)
             if countdown < 1600 and countdown == beepcountdown:
                 beepcountdown -= 100
-                print(beepcountdown)
-                beep.play()
-            elif countdown == 0:
-                beepcountdown = 1500
+            if countdown < 1600 and countdown == beepcountdown:
+                beepcountdown -= 100
         fighter_1.move(Scr_width, Scr_height, screen, fighter_2)
         fighter_2.move(Scr_width, Scr_height, screen, fighter_1)
     else:
@@ -251,7 +249,6 @@ while run:
         if (pygame.time.get_ticks() - last_count_update >= 1000):
             intro_count -= 1
             last_count_update = pygame.time.get_ticks()
-            print (intro_count)
 
 
 
@@ -266,7 +263,6 @@ while run:
             score[1]+= 1
             round_over = True
             round_over_time = pygame.time.get_ticks()
-            # print(score)
         elif fighter_2.alive == False or fighter_1.health > fighter_2.health and countdown == 0:
             score[0]+= 1
             round_over = True

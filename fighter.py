@@ -170,9 +170,11 @@ class Fighter():
                                 if key[pygame.K_a] and self.hit is False and self.hit_cooldown == 0 and self.cooking is False:
                                     self.dx = -self.Sp
                                     self.running = True
+                                    self.flip = True  # Flip the player to face left
                                 if key[pygame.K_d] and self.hit is False and self.hit_cooldown == 0 and self.cooking is False:
                                     self.dx = self.Sp
                                     self.running = True
+                                    self.flip = False  # Flip the player to face right
 
 
 
@@ -190,7 +192,7 @@ class Fighter():
                             self.attack_allow = False
                             self.block(target)
                             self.dx = 0
-                            #print(self.block_timer)
+                            # print(self.block_timer)
                     if not key[pygame.K_SPACE]:
                         self.blocking = False
                         self.attack_allow = True
@@ -278,9 +280,11 @@ class Fighter():
                                 if key[pygame.K_LEFT] and self.hit is False and self.hit_cooldown == 0 and self.cooking is False:
                                     self.dx = -self.Sp
                                     self.running = True
+                                    self.flip = True  # Flip the player to face left
                                 if key[pygame.K_RIGHT] and self.hit is False and self.hit_cooldown == 0 and self.cooking is False:
                                     self.dx = self.Sp
                                     self.running = True
+                                    self.flip = False  # Flip the player to face right
 
 
                         #jump function
@@ -297,7 +301,7 @@ class Fighter():
                             self.attack_allow = False
                             self.block(target)
                             self.dx = 0
-                            #print(self.block_timer)
+                            # print(self.block_timer)
                     if not key[pygame.K_KP0]:
                         self.blocking = False
                         self.attack_allow = True
@@ -404,10 +408,10 @@ class Fighter():
                     self.rect.x -= 8
                 else:
                     self.rect.x -= 3
-            #print("in air")
+            # print("in air")
         else:
             self.midair = False
-            #print("on land")
+            # print("on land")
 
         #to prevent spam corner attack
         if target.attack_check1 == 3:
@@ -422,7 +426,7 @@ class Fighter():
             self.cooking_sound.play()
 
         # if self.sword_clash_check is True:
-        #     print(self.sword_clash_check)
+        #     # print(self.sword_clash_check)
         #     self.sword_clash.play()
         #     self.sword_clash_check = False
 
@@ -442,7 +446,7 @@ class Fighter():
                 self.block_cooldown = 70  # amount of time wait before blocking again
         elif self.blocking is False and self.block_timer > 0:
             self.block_timer -= 0.3 #recharging block
-            print(self.block_timer)
+            # print(self.block_timer)
         if self.block_cooldown == 0:
             self.blockallow = True # allow to block again
 
@@ -507,7 +511,7 @@ class Fighter():
                 self.attack_cooldown += 55  # punish player for using recklessly
         elif self.attack1drawallow is True:
             self.attack1_count += 1
-            print(self.attack1_count)
+            # print(self.attack1_count)
 
 
         # attack 2 arguement
@@ -522,7 +526,7 @@ class Fighter():
         #cooking up an attack
         if self.cooking is True and self.cook_count < 120: #while pressing the 'charging' button
             self.cook_count += 1
-            print(self.cook_count)
+            # print(self.cook_count)
         if self.cook_count == 119: #a notification to the player that their attack is charged
             self.charge_attackindicator.play()
         if self.cook_count == 120:
@@ -591,7 +595,7 @@ class Fighter():
                 self.update_action(9)
         elif self.blocking == True: #block
             self.update_action(10)
-            print("block ani")
+            # print("block ani")
         elif self.shoot > 1 and self.shoot < 6:
             self.update_action(11)
         elif self.counterattack == True:
@@ -645,7 +649,7 @@ class Fighter():
                     self.cookallow = True
                     if self.rect.x <= 0 or self.rect.x >= 1220:
                         self.attack_check1 += 1
-                        print(self.attack_check1)
+                        # print(self.attack_check1)
                 if self.action == 11:
                     self.shoot += 0.5
 
@@ -656,7 +660,7 @@ class Fighter():
             self.attack_sound.play() #play the sfx
             if attacking_rect.colliderect(target.rect):
                 if (target.blocking == False or self.flip is True and target.flip is True or self.flip is False and target.flip is False):#allow person to attack behind & no damage if the person blocked in front
-                    print("hit")
+                    # print("hit")
                     if target.counterattack is False: #extra condition on opponent counter attack
                         target.airstun = True #stronger knockback
                         target.hit = True #allow every condition of the opponent self.hit condition to play out
@@ -677,7 +681,7 @@ class Fighter():
             attacking_rect = pygame.Rect(self.rect.centerx- 55 - (2 * self.knightattack2rect.width * self.flip), self.rect.y, 2 * self.knightattack2rect.width, self.knightattack2rect.height)
             if attacking_rect.colliderect(target.rect):
                 if (target.blocking == False or self.flip is True and target.flip is True or self.flip is False and target.flip is False):#allow person to attack behind & no damage if the person blocked in front
-                    print("hit")
+                    # print("hit")
                     if target.counterattack is False: #extra condition on opponent counter attack
                         target.health -= 25 #damage dealt by the attack
                         target.hit = True #allow every condition of the opponent self.hit condition to play out
@@ -695,7 +699,7 @@ class Fighter():
             self.light_attack_sound.play()
             if attacking_rect.colliderect(target.rect):
                 if (target.blocking == False or self.flip is True and target.flip is True or self.flip is False and target.flip is False):#allow person to attack behind & no damage if the person blocked in front
-                    print("hit")
+                    # print("hit")
                     if target.counterattack is False: #extra condition on opponent counter attack
                         target.health -= 5 #damage dealt by the attack
                         target.hit = True #allow every condition of the opponent self.hit condition to play out
@@ -712,7 +716,7 @@ class Fighter():
             counter_rect = pygame.Rect(self.rect.centerx - (2 * self.counterrect.width * self.flip), self.rect.y, 2 * self.counterrect.width, self.counterrect.height)
             self.light_attack_sound.play()
             if counter_rect.colliderect(target.rect):
-                print("Counterattack Hit!")
+                # print("Counterattack Hit!")
                 target.health -= 1 #damage dealt by the attack(this is because the rect is draw multiple times)
                 target.hit = True #allow every condition of the opponent self.hit condition to play out
                 target.hit_cooldown = 40 #preventing the enemy from attacking during the hit animation
@@ -723,14 +727,14 @@ class Fighter():
             self.charged_attack_sound.play()
             cook_rect = pygame.Rect(self.rect.centerx - (2 * self.cookrect.width * self.flip), self.rect.y, 2 * self.cookrect.width, self.cookrect.height)
             if cook_rect.colliderect(target.rect):
-                print("Big attack")
+                # print("Big attack")
                 target.airstun = True #big knockback
                 target.health -= 15  #damage dealt by the attack(this is because the rect is draw multiple times)
                 target.hit = True  #allow every condition of the opponent self.hit condition to play out
                 target.hit_cooldown = 40 #preventing the enemy from attacking during the hit animation
                 target.attack_cooldown = 45
                 if target.blocking is True:
-                    print("block break!!")
+                    # print("block break!!")
                     target.block_timer = 75 #nulify enemy blocking (the attack special ability)
                     target.health -= 25 #increase the damage
 
@@ -757,7 +761,7 @@ class Fighter():
 
     def getborder(self,border): #get the scrolling from the main.py
         self.border = border
-        #print(self.border)
+        # print(self.border)
         return self.border
 
     def update_action(self, new_action):
